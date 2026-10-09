@@ -2,25 +2,20 @@
 import turtle
 import time
 
+from board import Board
+from border import Border
 from paddle import Paddle
 from ball import Ball
 
 screen = turtle.Screen()
-screen.setup(width=800, height=600)
+screen.setup(width=850, height=650)
 screen.bgcolor("black")
 screen.title("Pong")
 
 screen.tracer(0)
 
-board = turtle.Turtle()
-board.color("white")
-board.hideturtle()
-board.penup()
-for i in range(-380, 410, 40):
-    board.color("white")
-    board.goto(0, i)
-    board.write('|',True,"center",("Arial", 24, "normal"))
-
+board = Board()
+border = Border()
 right_paddle = Paddle('right')
 left_paddle = Paddle('left')
 ball = Ball()
@@ -40,29 +35,49 @@ while game_on:
     time.sleep(0.2)
     ball.move()
 
-    # detect collision with walk
-    if ball.ycor() > 275:
-        print(f'x = {ball.xcor()}, y = {ball.ycor()}, heading = {ball.heading()}')
-    if ball.ycor() > 275:
-        # print(f'x = {ball.xcor()}, y = {ball.ycor()}')
+    # detect collision with paddle
+    if ball.distance(left_paddle) < 20:
+        print(ball.distance(left_paddle))
+        paddle_top = left_paddle.ycor() + 40
+        paddle_bottom = left_paddle.ycor() - 40
+        if paddle_bottom < ball.ycor() < paddle_top:
+            ball.setheading(45)
+    if ball.distance(right_paddle) < 20:
+        print(ball.distance(right_paddle))
+        paddle_top = right_paddle.ycor() + 40
+        paddle_bottom = right_paddle.ycor() - 40
+        if paddle_bottom < ball.ycor() < paddle_top:
+            ball.setheading(135)
+
+
+    # detect collision with wall
+    if ball.ycor() > 280:
         if 0 < ball.heading() < 90:
             new_heading = (90 - ball.heading()) + 270
-            # print(f'new heading : {new_heading}')
             ball.setheading(new_heading)
-    if ball.ycor() < -275:
+        elif 90 < ball.heading() < 180:
+            new_heading = (180 - ball.heading()) + 180
+            ball.setheading(new_heading)
+    if ball.ycor() < -280:
         if 180 < ball.heading() < 270:
             new_heading = (270 - ball.heading()) + 90
-            # print(f'new heading : {new_heading}')
             ball.setheading(new_heading)
-    if ball.xcor() > 390:
+        elif 270 < ball.heading() < 360:
+            new_heading = (360 - ball.heading()) + 0
+            ball.setheading(new_heading)
+    if ball.xcor() > 380:
         if 270 < ball.heading() < 360:
             new_heading = (360 - ball.heading()) + 180
-            # print(f'new heading : {new_heading}')
             ball.setheading(new_heading)
-    if ball.xcor() < -390:
+        elif 0 < ball.heading() < 90:
+            new_heading = (90 - ball.heading()) + 90
+            ball.setheading(new_heading)
+    if ball.xcor() < -380:
         if 90 < ball.heading() < 180:
             new_heading = (180 - ball.heading()) + 0
-            # print(f'new heading : {new_heading}')
+            ball.setheading(new_heading)
+        if 180 < ball.heading() < 270:
+            new_heading = (270 - ball.heading()) + 270
             ball.setheading(new_heading)
 
 screen.exitonclick()

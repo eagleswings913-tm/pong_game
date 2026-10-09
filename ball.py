@@ -8,7 +8,7 @@ class Ball(turtle.Turtle):
         self.color("white")
         self.penup()
         self.goto(0,0)
-        self.setheading(45)
+        self.setheading(110)
 
     def move(self):
         self.forward(20)
