@@ -18,8 +18,13 @@ class Score(turtle.Turtle):
         self.goto(80,250)
         self.write(f"{self.player2_score}",font=FONT)
 
-    def update_score(self):
-        pass
+    def update_score(self, player):
+        if player == 1:
+            self.player1_score += 1
+        elif player == 2:
+            self.player2_score += 1
+        self.clear()
+        self.write_score()
     
     def game_over(self):
         self.goto(0,0)

@@ -10,6 +10,9 @@ class Ball(turtle.Turtle):
         self.goto(0,0)
         self.setheading(170)
 
+    def reset_ball(self):
+        self.goto(0,0)
+
     def move(self):
         self.forward(20)
 

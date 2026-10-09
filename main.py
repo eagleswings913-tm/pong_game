@@ -48,16 +48,19 @@ while game_on:
 
     # detect player missing the ball
     if ball.xcor() > 380:
-        if 270 < ball.heading() < 360:
-            new_heading = (360 - ball.heading()) + 180
-        elif 0 < ball.heading() < 90:
-            new_heading = (90 - ball.heading()) + 90
-        ball.setheading(new_heading)
+        ball.move()
+        print('left player scores')
+        score_board.update_score(1)
+        ball.reset_ball()
+        screen.update()
+        game_on = False
     if ball.xcor() < -380:
-        if 90 < ball.heading() < 180:
-            new_heading = (180 - ball.heading()) + 0
-        if 180 < ball.heading() < 270:
-            new_heading = (270 - ball.heading()) + 270
-        ball.setheading(new_heading)
+        ball.move()
+        print('right player scores')
+        score_board.update_score(2)
+        ball.reset_ball()
+        screen.update()
+        game_on = False
+
 
 screen.exitonclick()
