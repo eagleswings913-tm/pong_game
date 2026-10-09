@@ -4,6 +4,7 @@ import time
 
 from board import Board
 from border import Border
+from score import Score
 from paddle import Paddle
 from ball import Ball
 
@@ -16,6 +17,7 @@ screen.tracer(0)
 
 board = Board()
 border = Border()
+score_board = Score()
 right_paddle = Paddle('right')
 left_paddle = Paddle('left')
 ball = Ball()
@@ -25,7 +27,6 @@ screen.onkey(fun=left_paddle.move_up, key="w")
 screen.onkey(fun=left_paddle.move_down, key="s")
 screen.onkey(fun=right_paddle.move_up, key="Up")
 screen.onkey(fun=right_paddle.move_down, key="Down")
-
 
 screen.update()
 
@@ -48,7 +49,6 @@ while game_on:
         paddle_bottom = right_paddle.ycor() - 40
         if paddle_bottom < ball.ycor() < paddle_top:
             ball.setheading(135)
-
 
     # detect collision with wall
     if ball.ycor() > 280:
