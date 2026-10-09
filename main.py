@@ -33,51 +33,31 @@ screen.update()
 game_on = True
 while game_on:
     screen.update()
-    time.sleep(0.2)
+    time.sleep(0.1)
     ball.move()
 
+    new_heading = 10
     # detect collision with paddle
-    if ball.distance(left_paddle) < 20:
-        print(ball.distance(left_paddle))
-        paddle_top = left_paddle.ycor() + 40
-        paddle_bottom = left_paddle.ycor() - 40
-        if paddle_bottom < ball.ycor() < paddle_top:
-            ball.setheading(45)
-    if ball.distance(right_paddle) < 20:
-        print(ball.distance(right_paddle))
-        paddle_top = right_paddle.ycor() + 40
-        paddle_bottom = right_paddle.ycor() - 40
-        if paddle_bottom < ball.ycor() < paddle_top:
-            ball.setheading(135)
+    if (330 <= ball.xcor() < 350 and ball.distance(right_paddle) <= 50) or (-330 >= ball.xcor() >= -350 and ball.distance(left_paddle) <= 50):
+        ball.paddle_bounce(ball.heading())
 
-    # detect collision with wall
-    if ball.ycor() > 280:
-        if 0 < ball.heading() < 90:
-            new_heading = (90 - ball.heading()) + 270
-            ball.setheading(new_heading)
-        elif 90 < ball.heading() < 180:
-            new_heading = (180 - ball.heading()) + 180
-            ball.setheading(new_heading)
-    if ball.ycor() < -280:
-        if 180 < ball.heading() < 270:
-            new_heading = (270 - ball.heading()) + 90
-            ball.setheading(new_heading)
-        elif 270 < ball.heading() < 360:
-            new_heading = (360 - ball.heading()) + 0
-            ball.setheading(new_heading)
+    # detect collision with top and bottom walls
+    ball_y = ball.ycor()
+    if ball_y > 280 or ball_y < -280:
+        ball.wall_bounce(ball.heading())
+
+    # detect player missing the ball
     if ball.xcor() > 380:
         if 270 < ball.heading() < 360:
             new_heading = (360 - ball.heading()) + 180
-            ball.setheading(new_heading)
         elif 0 < ball.heading() < 90:
             new_heading = (90 - ball.heading()) + 90
-            ball.setheading(new_heading)
+        ball.setheading(new_heading)
     if ball.xcor() < -380:
         if 90 < ball.heading() < 180:
             new_heading = (180 - ball.heading()) + 0
-            ball.setheading(new_heading)
         if 180 < ball.heading() < 270:
             new_heading = (270 - ball.heading()) + 270
-            ball.setheading(new_heading)
+        ball.setheading(new_heading)
 
 screen.exitonclick()
