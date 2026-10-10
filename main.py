@@ -1,7 +1,6 @@
 
 import turtle
 import time
-
 from board import Board
 from border import Border
 from score import Score
@@ -12,7 +11,6 @@ screen = turtle.Screen()
 screen.setup(width=850, height=650)
 screen.bgcolor("black")
 screen.title("Pong")
-
 screen.tracer(0)
 
 board = Board()
@@ -21,14 +19,22 @@ score_board = Score()
 right_paddle = Paddle('right')
 left_paddle = Paddle('left')
 ball = Ball()
+missed_ball = False
 
 screen.listen()
 screen.onkey(fun=left_paddle.move_up, key="w")
 screen.onkey(fun=left_paddle.move_down, key="s")
 screen.onkey(fun=right_paddle.move_up, key="Up")
 screen.onkey(fun=right_paddle.move_down, key="Down")
-
 screen.update()
+
+def reset_game():
+    ball.reset_ball()
+    ball.next_player()
+    right_paddle.place_paddle('right')
+    left_paddle.place_paddle('left')
+    ball.serve_ball()
+    screen.update()
 
 game_on = True
 while game_on:
@@ -49,18 +55,25 @@ while game_on:
     # detect player missing the ball
     if ball.xcor() > 380:
         ball.move()
-        print('left player scores')
         score_board.update_score(1)
-        ball.reset_ball()
-        screen.update()
-        game_on = False
+        missed_ball = True
     if ball.xcor() < -380:
         ball.move()
-        print('right player scores')
         score_board.update_score(2)
-        ball.reset_ball()
-        screen.update()
-        game_on = False
+        missed_ball = True
+    if missed_ball:
+        reset_game()
+        while True:
+            user_input = (screen.textinput(title="Play again? ('y' or 'n')", prompt="Wait for a key")).lower()
+            if user_input == 'n':
+                game_on = False
+                break
+            elif user_input == 'y':
+                break
+        missed_ball = False
+        screen.getcanvas().focus_force()
+        screen.listen()
 
+print("Game over! Thanks for playing!")
 
 screen.exitonclick()

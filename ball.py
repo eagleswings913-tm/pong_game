@@ -1,5 +1,6 @@
 
 import turtle
+import random
 
 class Ball(turtle.Turtle):
     def __init__(self):
@@ -8,7 +9,25 @@ class Ball(turtle.Turtle):
         self.color("white")
         self.penup()
         self.goto(0,0)
-        self.setheading(170)
+        self.player_turn = 1
+        self.serve_ball()
+
+    def next_player(self):
+        if self.player_turn == 1:
+            self.player_turn = 2
+        else:
+            self.player_turn = 1
+
+    def serve_ball(self):
+        while True:
+            heading = random.randrange(0,180)
+            if heading != 90:
+                break
+        if self.player_turn == 1:
+            heading = heading - 90
+        else:
+            heading = heading + 90
+        self.setheading(heading)
 
     def reset_ball(self):
         self.goto(0,0)
