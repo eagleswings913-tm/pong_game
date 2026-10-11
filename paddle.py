@@ -23,7 +23,7 @@ class Paddle(turtle.Turtle):
         x_cor = self.xcor()
         y_cor = self.ycor()
         if y_cor < 250:
-            self.goto(x_cor,y_cor + 20)
+            self.goto(x_cor,y_cor + 30)
         # print(f'xcor = {x_cor}, ycor = {y_cor}')
 
     def move_down(self):
